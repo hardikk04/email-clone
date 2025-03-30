@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { GoPencil } from "react-icons/go";
 import { RiInboxFill } from "react-icons/ri";
 import { FaRegStar } from "react-icons/fa";
@@ -6,9 +5,11 @@ import { LuClock7 } from "react-icons/lu";
 import { IoSendOutline } from "react-icons/io5";
 import { RiDraftLine } from "react-icons/ri";
 import { IoIosArrowDown } from "react-icons/io";
+import { useDispatch } from "react-redux";
+import { openMailBox } from "../redux/slices/sendMailBoxSlice";
 
 const Sidebar = () => {
-  const [sideBarOptions, setSideBarOptions] = useState([
+  const sideBarOptions = [
     {
       icon: <RiInboxFill size={30} />,
       text: "Inbox",
@@ -45,12 +46,19 @@ const Sidebar = () => {
       number: 90,
       isActive: false,
     },
-  ]);
+  ];
+
+  const dispatch = useDispatch();
 
   return (
-    <div className="w-[16%] h-full relative">
+    <div className="w-[24%] h-full relative pr-10">
       <div className="px-3 pb-6">
-        <button className="flex items-center px-6 py-4 gap-4 bg-[#C2E7FF] rounded-2xl text-xl">
+        <button
+          onClick={() => {
+            dispatch(openMailBox());
+          }}
+          className="flex cursor-pointer items-center px-6 py-4 gap-4 bg-[#C2E7FF] rounded-2xl text-xl"
+        >
           <GoPencil size={30} />
           Compose
         </button>
@@ -62,7 +70,7 @@ const Sidebar = () => {
               key={index}
               className={`${
                 option.isActive && "bg-[#D3E3FD]"
-              } flex justify-between items-center px-6 rounded-r-full py-2 hover:bg-[#EBEDF0] cursor-pointer`}
+              } flex justify-between items-center px-6 pl-10 rounded-r-full py-2 hover:bg-[#EBEDF0] cursor-pointer`}
               onClick={() => {}}
             >
               <div className="flex gap-6 items-center">
