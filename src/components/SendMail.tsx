@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store/store";
 import { closeMailBox } from "../redux/slices/sendMailBoxSlice";
 import { useState } from "react";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../db/firebase";
+import { toast } from "react-toastify";
 const SendMail = () => {
   const open = useSelector((store: RootState) => store.mailbox.open);
   const dispatch = useDispatch();
@@ -21,9 +22,12 @@ const SendMail = () => {
       to: formData.to,
       subject: formData.subject,
       message: formData.message,
-      createdAt: new Date(),
+      createdAt: serverTimestamp(),
     });
+    toast.success("Created!");
+
     dispatch(closeMailBox());
+
     // making empty the inputs
     setFormData({
       to: "",

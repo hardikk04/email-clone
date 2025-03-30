@@ -10,10 +10,7 @@ export const createMailBoxSlice = createSlice({
         subject: "",
         message: "",
         id: "",
-        createdAt: {
-          seconds: 0,
-          nanoseconds: 0,
-        },
+        createdAt: "",
       },
     ],
     selectedEmail: {
@@ -21,11 +18,9 @@ export const createMailBoxSlice = createSlice({
       subject: "",
       message: "",
       id: "",
-      createdAt: {
-        seconds: 0,
-        nanoseconds: 0,
-      },
+      createdAt: "",
     },
+    searchInput: "",
   },
   reducers: {
     openMailBox: (state) => {
@@ -40,10 +35,18 @@ export const createMailBoxSlice = createSlice({
     setSelectedEmail: (state, action) => {
       state.selectedEmail = action.payload;
     },
+    setSearchInput: (state, action) => {
+      state.searchInput = action.payload;
+    },
   },
 });
 
-export const { openMailBox, closeMailBox, setEmails, setSelectedEmail } =
-  createMailBoxSlice.actions;
+export const {
+  openMailBox,
+  closeMailBox,
+  setEmails,
+  setSelectedEmail,
+  setSearchInput,
+} = createMailBoxSlice.actions;
 
 export default createMailBoxSlice.reducer;

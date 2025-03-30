@@ -1,19 +1,18 @@
-interface Timestamp {
-  seconds: number;
-  nanoseconds: number;
+export function convertTimestamp(isoString: string): string {
+  const date = new Date(isoString);
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Ensure 2-digit month
+  const year = date.getFullYear();
+  return `${month}/${year}`;
 }
 
-export function convertTimestamp(timestamp: Timestamp): string {
-  const date = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1e6);
-  const month = date.toLocaleString("default", { month: "long" }); // Full month name
-  const year = date.getFullYear(); // Year
-  return `${month} ${year}`;
-}
+export function convertTimestampExact(isoString: string): string {
+  const date = new Date(isoString);
+  const day = date.getUTCDate();
+  const month = date.toLocaleString("en-US", {
+    month: "long",
+    timeZone: "UTC",
+  });
+  const year = date.getUTCFullYear();
 
-export function convertTimestampExact(timestamp: Timestamp): string {
-  const date = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1e6);
-  const day = date.getDate(); // Get day of the month
-  const month = date.toLocaleString("default", { month: "long" }); // Full month name
-  const year = date.getFullYear(); // Year
   return `${day} ${month} ${year}`;
 }

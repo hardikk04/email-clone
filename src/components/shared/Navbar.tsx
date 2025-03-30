@@ -3,9 +3,18 @@ import { IoIosSearch } from "react-icons/io";
 import { GoQuestion } from "react-icons/go";
 import { IoSettingsOutline } from "react-icons/io5";
 import { TbGridDots } from "react-icons/tb";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setSearchInput } from "../../redux/slices/sendMailBoxSlice";
 // import Avatar from "react-avatar";
 
 const Navbar = () => {
+  const [input, setInput] = useState("");
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setSearchInput(input));
+  }, [input, dispatch]);
+
   return (
     <nav className="flex justify-between items-center w-full relative px-6 py-4">
       <div className="nav-left flex items-center gap-6">
@@ -21,7 +30,13 @@ const Navbar = () => {
       </div>
       <div className="nav-center bg-[#E9EEF6] rounded-full flex text-2xl gap-4 w-3xl px-3 py-3">
         <IoIosSearch size={30} />
-        <input type="text" placeholder="Search mail" className="outline-none" />
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          type="text"
+          placeholder="Search mail"
+          className="outline-none"
+        />
       </div>
       <div className="flex gap-4 items-center">
         <GoQuestion size={30} />

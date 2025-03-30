@@ -2,19 +2,32 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { RiInboxArchiveLine } from "react-icons/ri";
 import { IoIosInformationCircleOutline } from "react-icons/io";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { MdDeleteOutline } from "react-icons/md";
 import { MdOutlineMarkAsUnread } from "react-icons/md";
 import { MdOutlineMoveToInbox } from "react-icons/md";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store/store";
+import { convertTimestampExact } from "../libs/convertTimestamp";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "../db/firebase";
+import { toast } from "react-toastify";
 // import { convertTimestampExact } from "../libs/convertTimestamp";
 
 const Mail = () => {
   const { selectedEmail } = useSelector((store: RootState) => store.mailbox);
-  console.log(selectedEmail);
-
+  const navigate = useNavigate();
+  const deleteMail = async () => {
+    try {
+      const docRef = doc(db, "emails", selectedEmail.id);
+      await deleteDoc(docRef);
+      navigate("/");
+      toast.success("Deleted!");
+    } catch (error) {
+      console.error("Error deleting document: ", error);
+    }
+  };
   return (
     <div className="flex h-screen w-full">
       <Outlet></Outlet>
@@ -36,8 +49,9 @@ const Mail = () => {
               className="hover:bg-gray-100 rounded-full p-2"
             />
             <MdDeleteOutline
+              onClick={deleteMail}
               size={40}
-              className="hover:bg-gray-100 rounded-full p-2"
+              className="hover:bg-gray-100 cursor-pointer rounded-full p-2"
             />
             <MdOutlineMarkAsUnread
               size={40}
@@ -67,7 +81,7 @@ const Mail = () => {
               <button className="bg-gray-200 px-3 rounded-md">inbox</button>
             </div>
             <span className="text-gray-500">
-              {/* {convertTimestampExact(selectedEmail.createdAt)} */}
+              {convertTimestampExact(selectedEmail.createdAt)}
             </span>
           </div>
           <div className="pt-6">
