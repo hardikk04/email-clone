@@ -4,11 +4,14 @@ import { GoQuestion } from "react-icons/go";
 import { IoSettingsOutline } from "react-icons/io5";
 import { TbGridDots } from "react-icons/tb";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { setSearchInput } from "../../redux/slices/sendMailBoxSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchInput, setUser } from "../../redux/slices/sendMailBoxSlice";
+import { RootState } from "../../redux/store/store";
 // import Avatar from "react-avatar";
 
 const Navbar = () => {
+  const { user } = useSelector((store: RootState) => store.mailbox);
+
   const [input, setInput] = useState("");
   const dispatch = useDispatch();
   useEffect(() => {
@@ -42,12 +45,22 @@ const Navbar = () => {
         <GoQuestion size={30} />
         <IoSettingsOutline size={30} />
         <TbGridDots size={30} />
-        <div className="avtar h-[5vh] w-[5vh] rounded-full overflow-hidden">
+        <div className="relative avtar h-[5vh] w-[5vh] rounded-full">
           <img
-            src="https://www.shutterstock.com/image-photo/head-shot-portrait-close-smiling-600nw-1714666150.jpg"
+            src={user.photoURL}
             alt="user-profile"
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover rounded-full"
           />
+          <div className="absolute bottom-[-100%] left-[-50%] bg-[#E9EEF6] rounded-md overflow-hidden">
+            <button
+              onClick={() => {
+                dispatch(setUser({}));
+              }}
+              className="bg-red-500 text-white px-4 py-2"
+            >
+              logout
+            </button>
+          </div>
         </div>
       </div>
     </nav>

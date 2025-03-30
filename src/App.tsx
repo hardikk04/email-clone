@@ -6,9 +6,14 @@ import Mail from "./components/Mail";
 import SendMail from "./components/SendMail";
 
 import { ToastContainer } from "react-toastify";
+import Login from "./components/Login";
+import { useSelector } from "react-redux";
+import { RootState } from "./redux/store/store";
 
 const App = () => {
-  return (
+  const { user } = useSelector((store: RootState) => store.mailbox);
+
+  return user.displayName && user.email && user.photoURL ? (
     <>
       <Navbar></Navbar>
       <Routes>
@@ -34,6 +39,8 @@ const App = () => {
         theme="light"
       />
     </>
+  ) : (
+    <Login />
   );
 };
 

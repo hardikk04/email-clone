@@ -21,6 +21,11 @@ export const createMailBoxSlice = createSlice({
       createdAt: "",
     },
     searchInput: "",
+    user: {
+      displayName: "",
+      email: "",
+      photoURL: "",
+    },
   },
   reducers: {
     openMailBox: (state) => {
@@ -38,6 +43,9 @@ export const createMailBoxSlice = createSlice({
     setSearchInput: (state, action) => {
       state.searchInput = action.payload;
     },
+    setUser: (state, action) => {
+      state.user = action.payload;
+    },
   },
 });
 
@@ -47,6 +55,7 @@ export const {
   setEmails,
   setSelectedEmail,
   setSearchInput,
+  setUser,
 } = createMailBoxSlice.actions;
 
 export default createMailBoxSlice.reducer;
